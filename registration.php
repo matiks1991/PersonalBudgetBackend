@@ -33,11 +33,27 @@ if (isset($_POST['username'])) {
       $_SESSION['e_email'] = "Podaj poprawny adres email!";
   }
 
+  //Check password
+  $password1 = $_POST['password1'];
+  $password2 = $_POST['password2'];
+
+  if ((strlen($password1) < 8) || (strlen($password1) > 20)) {
+  $allGood = false;
+  $_SESSION['e_password'] = "Hasło musi posiadać od 8 do 20 znaków!";
+  }
+
+  if ($password1 != $password2) {
+      $allGood = false;
+      $_SESSION['e_password'] = "Podane hasła nie są identyczne!";
+  }
+
+  $passwordHash = password_hash($password1, PASSWORD_DEFAULT);
+
   //Remember data
   $_SESSION['fr_username'] = $username;
   $_SESSION['fr_email'] = $email;
-  // $_SESSION['fr_password1'] = $password1;
-  // $_SESSION['fr_password2'] = $password2;
+  $_SESSION['fr_password1'] = $password1;
+  $_SESSION['fr_password2'] = $password2;
 
 
   require_once "connect.php";
@@ -65,7 +81,15 @@ if (isset($_POST['username'])) {
       }
 
       if ($allGood == true) {
-        //echo "Udana walidacja";
+
+        //Query to databese
+        // if ($connection->query("INSERT INTO users VALUES (NULL, '$username', '$haslo_hash', '$email', 100, 100, 100, now() + INTERVAL 14 DAY)")) {
+        //   $_SESSION['successfulRegistration'] = true;
+        //   header('Location: menu.php');
+        // } 
+        // else {
+        //     throw new Exception($connection->error);
+        // }
       }
     }
 
@@ -137,8 +161,6 @@ if (isset($_POST['username'])) {
               </div>
             </div>
 
-
-
             <div class="row">
               <div class="form-group form-inline col offset-1">
 
@@ -154,7 +176,7 @@ if (isset($_POST['username'])) {
                 if (isset($_SESSION['e_email'])) {
                   echo '<div class="row col-11 text-danger">' . $_SESSION['e_email'] . '</div>';
                   unset($_SESSION['e_email']);
-                } 
+                }
                 ?>
               </div>
             </div>
@@ -166,8 +188,16 @@ if (isset($_POST['username'])) {
                   <span class="input-group-text" id="basic-addon2"><i class="icon-lock"></i></span>
                 </div>
                 <label class="sr-only">Hasło</label>
-                <!-- <input type="password" class="form-control col-9" placeholder="Wprowadź hasło" aria-label="Hasło" aria-describedby="basic-addon2" required> -->
-
+                <input type="password" class="form-control col-9" name="password1" placeholder="Wprowadź hasło" aria-label="Hasło" aria-describedby="basic-addon2" required value="<?php if (isset($_SESSION['fr_password1'])) {
+                  echo $_SESSION['fr_password1'];
+                  unset($_SESSION['fr_password1']);
+                }?>">
+                <?php
+                if (isset($_SESSION['e_password'])) {
+                  echo '<div class="row col-11 text-danger">' . $_SESSION['e_password'] . '</div>';
+                  unset($_SESSION['e_password']);
+                } 
+                ?>
               </div>
             </div>
 
@@ -178,7 +208,10 @@ if (isset($_POST['username'])) {
                   <span class="input-group-text" id="basic-addon4"><i class="icon-lock"></i></span>
                 </div>
                 <label class="sr-only">Hasło</label>
-                <!-- <input type="password" class="form-control col-9" placeholder="Powtórz hasło" aria-label="Hasło2" aria-describedby="basic-addon4" required> -->
+                <input type="password" class="form-control col-9" name="password2" placeholder="Powtórz hasło" aria-label="Hasło2" aria-describedby="basic-addon4" required value="<?php if (isset($_SESSION['fr_password2'])) {
+                  echo $_SESSION['fr_password2'];
+                  unset($_SESSION['fr_password2']);
+                }?>">
 
               </div>
             </div>
