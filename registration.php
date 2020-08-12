@@ -25,16 +25,12 @@ if (isset($_POST['username'])) {
   }
 
   //Checking the correctness of the email
-  // $email = $_POST['email'];
-  // $emailB = filter_var($email, FILTER_SANITIZE_EMAIL);
+  $email = $_POST['email'];
+  $emailB = filter_var($email, FILTER_SANITIZE_EMAIL);
 
-  // if (((filter_var($emailB, FILTER_VALIDATE_EMAIL) == false)) || ($emailB != $email)) {
-  //     $allGood = false;
-  //     $_SESSION['e_email'] = "Podaj poprawny adres email!";
-  // }
-
-  if ($allGood == true) {
-    //echo "Udana walidacja";
+  if (((filter_var($emailB, FILTER_VALIDATE_EMAIL) == false)) || ($emailB != $email)) {
+      $allGood = false;
+      $_SESSION['e_email'] = "Podaj poprawny adres email!";
   }
 
   //Remember data
@@ -54,7 +50,23 @@ if (isset($_POST['username'])) {
       throw new Exception(mysqli_connect_errno());
     }
     else {
+
+      //Check if the email arledy exists in the database
+      $theSameEmailsInTheDatabase = $connection->query("SELECT email FROM users WHERE email='$email'");
+
+      if(!$theSameEmailsInTheDatabase)
+        throw new Exception($connection->error);
       
+      $howManyTheSameEmails = $theSameEmailsInTheDatabase->num_rows;
+
+      if($howManyTheSameEmails > 0){
+        $allGood = false;
+        $_SESSION['e_email'] = "Istnieje już konto przypisane do tego adresu email!";
+      }
+
+      if ($allGood == true) {
+        //echo "Udana walidacja";
+      }
     }
 
 
@@ -134,16 +146,16 @@ if (isset($_POST['username'])) {
                   <span class="input-group-text" id="basic-addon1"><i class="icon-mail"></i></span>
                 </div>
                 <label class="sr-only">Email</label>
-                <!-- <input type="email" class="form-control col-9" name="email" placeholder="Wprowadź adres email" aria-label="Email" aria-describedby="basic-addon1" required value="<?php if (isset($_SESSION['fr_email'])) {
+                <input type="email" class="form-control col-9" name="email" placeholder="Wprowadź adres email" aria-label="Email" aria-describedby="basic-addon1" required value="<?php if (isset($_SESSION['fr_email'])) {
                   echo $_SESSION['fr_email'];
                   unset($_SESSION['fr_email']);
-                }?>"> -->
-                <!-- <?php
+                }?>">
+                <?php
                 if (isset($_SESSION['e_email'])) {
                   echo '<div class="row col-11 text-danger">' . $_SESSION['e_email'] . '</div>';
                   unset($_SESSION['e_email']);
                 } 
-                ?>-->
+                ?>
               </div>
             </div>
 
