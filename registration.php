@@ -24,7 +24,14 @@ if (isset($_POST['username'])) {
     $_SESSION['e_username'] = "Imię może się składać tylko ze znaków z polskiego alfabetu!";
   }
 
-  
+  //Checking the correctness of the email
+  // $email = $_POST['email'];
+  // $emailB = filter_var($email, FILTER_SANITIZE_EMAIL);
+
+  // if (((filter_var($emailB, FILTER_VALIDATE_EMAIL) == false)) || ($emailB != $email)) {
+  //     $allGood = false;
+  //     $_SESSION['e_email'] = "Podaj poprawny adres email!";
+  // }
 
   if ($allGood == true) {
     //echo "Udana walidacja";
@@ -32,16 +39,31 @@ if (isset($_POST['username'])) {
 
   //Remember data
   $_SESSION['fr_username'] = $username;
-  // $_SESSION['fr_email'] = $email;
+  $_SESSION['fr_email'] = $email;
   // $_SESSION['fr_password1'] = $password1;
   // $_SESSION['fr_password2'] = $password2;
+
+
+  require_once "connect.php";
+  mysqli_report(MYSQLI_REPORT_STRICT);
+
+  try{
+    $connection = new mysqli($host, $db_user, $db_password, $db_name);
+
+    if($connection->connect_errno != 0){
+      throw new Exception(mysqli_connect_errno());
+    }
+    else {
+      
+    }
+
+
+  } catch(Exception $e) {
+    echo '<span class="text-danger">Błąd serwera! Przepraszamy za niedogodności i prosimy o rejestrację w innym terminie!</span>';
+    echo '<br />Informacja developerska: '.$e;
+  }
+
 }
-
-// try{
-
-// } catch(Exception $e) {
-
-// }
 
 ?>
 
@@ -112,7 +134,16 @@ if (isset($_POST['username'])) {
                   <span class="input-group-text" id="basic-addon1"><i class="icon-mail"></i></span>
                 </div>
                 <label class="sr-only">Email</label>
-                <!-- <input type="email" class="form-control col-9" name="email" placeholder="Wprowadź adres email" aria-label="Email" aria-describedby="basic-addon1" required> -->
+                <!-- <input type="email" class="form-control col-9" name="email" placeholder="Wprowadź adres email" aria-label="Email" aria-describedby="basic-addon1" required value="<?php if (isset($_SESSION['fr_email'])) {
+                  echo $_SESSION['fr_email'];
+                  unset($_SESSION['fr_email']);
+                }?>"> -->
+                <!-- <?php
+                if (isset($_SESSION['e_email'])) {
+                  echo '<div class="row col-11 text-danger">' . $_SESSION['e_email'] . '</div>';
+                  unset($_SESSION['e_email']);
+                } 
+                ?>-->
               </div>
             </div>
 
