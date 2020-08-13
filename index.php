@@ -64,10 +64,10 @@
                     </div>
                     <label class="sr-only">Hasło</label>
                     <input type="password" class="form-control col-9" placeholder="Wprowadź hasło" aria-label="Hasło" aria-describedby="basic-addon2" required name="password">
-                    <?php
+                </div>
+                <?php
                       if(isset($_SESSION['error'])) echo $_SESSION['error'];
                     ?>
-                </div>
               </div>
 
               <div class="row">
