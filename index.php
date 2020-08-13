@@ -52,7 +52,12 @@
                       <span class="input-group-text" id="basic-addon1"><i class="icon-mail"></i></span>
                     </div>
                     <label class="sr-only">Email</label>
-                    <input type="email" class="form-control col-9" placeholder="Wprowadź adres email" aria-label="Email" aria-describedby="basic-addon1" required name="email">
+                    <input type="email" class="form-control col-9" placeholder="Wprowadź adres email" aria-label="Email" aria-describedby="basic-addon1" required name="email" value=<?php
+                      if(isset($_SESSION['fr_email'])){
+                        echo $_SESSION['fr_email'];
+                        unset($_SESSION['fr_email']);
+                      }
+                    ?>>
                 </div>
               </div>
 
@@ -63,7 +68,12 @@
                       <span class="input-group-text" id="basic-addon2"><i class="icon-lock"></i></span>
                     </div>
                     <label class="sr-only">Hasło</label>
-                    <input type="password" class="form-control col-9" placeholder="Wprowadź hasło" aria-label="Hasło" aria-describedby="basic-addon2" required name="password">
+                    <input type="password" class="form-control col-9" placeholder="Wprowadź hasło" aria-label="Hasło" aria-describedby="basic-addon2" required name="password" value=<?php
+                      if(isset($_SESSION['fr_password'])){
+                        echo $_SESSION['fr_password'];
+                        unset($_SESSION['fr_password']);
+                      }
+                    ?>>
                 </div>
                 <?php
                       if(isset($_SESSION['error'])) echo $_SESSION['error'];

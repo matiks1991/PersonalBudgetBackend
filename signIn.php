@@ -23,10 +23,13 @@ try{
         $email = $_POST['email'];
         $password = $_POST['password'];
 
+        $_SESSION['fr_email'] = $email;
+        $_SESSION['fr_password'] = $password;
+
         $email = htmlentities($email, ENT_QUOTES, "UTF-8");
         
         $instructionRetrieveUserFromDatabase = sprintf("SELECT * FROM users WHERE email='%s'", mysqli_real_escape_string($connection, $email));
-        // "SELECT * FROM users WHERE email='$email'";
+        
         if($result = $connection->query($instructionRetrieveUserFromDatabase))
         {
             $howManyUsers = $result->num_rows;
@@ -52,7 +55,7 @@ try{
                 }
             }
             else {
-                $_SESSION['error'] = '<span class="row col-10 offset-1 text-danger">Niepoprawny login lub hasło!<span>'.$howManyUsers.$email.$password.'<br>'.$passwordHash;
+                $_SESSION['error'] = '<span class="row col-10 offset-1 text-danger">Niepoprawny login lub hasło!<span>';
                 header('Location:index.php');
             }
 
