@@ -83,13 +83,33 @@ if (isset($_POST['username'])) {
       if ($allGood == true) {
 
         //Query to databese
-        // if ($connection->query("INSERT INTO users VALUES (NULL, '$username', '$haslo_hash', '$email', 100, 100, 100, now() + INTERVAL 14 DAY)")) {
-        //   $_SESSION['successfulRegistration'] = true;
-        //   header('Location: menu.php');
-        // } 
-        // else {
-        //     throw new Exception($connection->error);
-        // }
+        $instructionToSaveDataUserInDatabase = "INSERT INTO users VALUES (NULL, '$username', '$email','$passwordHash')";
+
+        if ($connection->query($instructionToSaveDataUserInDatabase)) {
+
+          //Add user tables 
+          $instructionRetrievingUserIdFromDatabase = "SELECT * FROM users WHERE email='$email'";
+
+          $result = $connection->query($instructionRetrievingUserIdFromDatabase);
+          $row = $result->fetch_assoc();
+          $userId = $row['id'];
+          
+          $queryTableExpansesCategory = "CREATE TABLE expenses_category_assigned_to_ID_".$userId." AS SELECT * FROM expenses_category_default";
+          $queryTableIncomesCategory = "CREATE TABLE incomes_category_assigned_to_ID_".$userId." AS SELECT * FROM incomes_category_default";
+          $queryTablePaymentMethods = "CREATE TABLE payment_methods_assigned_to_ID_".$userId." AS SELECT * FROM payment_methods_default";
+
+
+          if($connection->query($queryTableExpansesCategory) AND $connection->query($queryTableIncomesCategory) AND $connection->query($queryTablePaymentMethods)){
+            $_SESSION['successfulRegistration'] = true;
+            header('Location: menu.php');
+          }
+          else {
+            throw new Exception($connection->error);
+          }
+        }
+        else {
+            throw new Exception($connection->error);
+        }
       }
     }
 
