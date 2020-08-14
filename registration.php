@@ -155,11 +155,6 @@
   </main>
 
 
-
-
-
-
-
   <script src="libraries/jquery-3.5.1.min.js"></script>
   <!-- <script src="libraries/poper.min.js"></script> -->
   <script src="libraries/bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>

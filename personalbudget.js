@@ -1,11 +1,11 @@
-var userName = "Artur";
+// var userName = "Artur";
 
-window.onload = writeUserName;
+// window.onload = writeUserName;
 
-function writeUserName()
-{
-	$('.user').html(userName);
-}
+// function writeUserName()
+// {
+// 	$('.user').html(userName);
+// }
 
 function setCurrentDate()
 {
