@@ -1,12 +1,3 @@
-var userName = "Artur";
-
-window.onload = writeUserName;
-
-function writeUserName()
-{
-	$('.user').html(userName);
-}
-
 function setCurrentDate()
 {
 	var today = new Date();
