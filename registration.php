@@ -111,6 +111,7 @@ if (isset($_POST['username'])) {
             throw new Exception($connection->error);
         }
       }
+      $connection->close();
     }
 
 
