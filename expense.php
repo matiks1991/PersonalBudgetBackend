@@ -6,6 +6,38 @@
       header('Location: index.php');
       exit();
   }
+
+  require_once "connect.php";
+
+  try{
+    $connection = @new mysqli($host, $db_user, $db_password, $db_name);
+
+    if ($connection->connect_errno != 0)
+    {
+        throw new Exception($connection->error);
+        //echo "Error: ".$connection->connect_errno." Opis: ".$connection->connect_error;
+    } else {
+      $instructionRetrievePaymentMethodsFromDatabase = 'SELECT * FROM payment_methods_assigned_to_id_'.$_SESSION['id'];
+      
+      if($result = $connection->query($instructionRetrievePaymentMethodsFromDatabase))
+      {
+        $dataPaymentMethods = $result->fetch_assoc();
+      }
+
+      $instructionRetrieveExpensesCategoryFromDatabase = 'SELECT * FROM expenses_category_assigned_to_id_'.$_SESSION['id'];
+      if($result = $connection->query($instructionRetrieveExpensesCategoryFromDatabase))
+      {
+        $dataExpensesCategory = $result->fetch_assoc();
+        unset($_SESSION['error']);
+      }
+    }
+
+  } catch (Exception $e) {
+    $_SESSION['error'] = '<span class="row  col-10 offset-1 text-danger">Błąd serwera! Przepraszamy za niedogodności i prosimy spróbować w innym terminie!<span>';
+    // $_SESSION['error'] .= '<br/> Informacja developerska: '.$e;
+  }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -79,7 +111,10 @@
           <h2 class="text-center font-weight-bold">Dodaj wydatek</h2>
 
           <hr>
-          
+          <?php
+              if(isset($_SESSION['error'])) echo $_SESSION['error'];
+          ?>
+
           <form class="text-center m-4 form-control-sm">
 
             <div class="row">
