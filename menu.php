@@ -71,7 +71,14 @@
     <div class="bg"></div>
 
     <div class="card col-md-8 offset-md-2 col-lg-6 offset-lg-3 mt-3">
-      <small class="text-center">Logowanie zakończone sukcesem!</small>
+      <small class="text-center"><?php 
+      if(isset($_SESSION['successfulRegistration']) && $_SESSION['successfulRegistration']=true){
+        echo 'Rejestracja zakończona sukcesem!';
+        unset($_SESSION['successfulRegistration']);
+      } else {
+        echo 'Logowanie zakończone sukcesem!';
+      }
+      ?></small>
       <img class="card-img-top" src="img/doors.jpg" alt="Drzwi">
       <div class="card-body p-0">
         <h6 class="card-title text-center font-weight-bold">Witaj <span><?= $_SESSION['username'];?></span>! </h6>
