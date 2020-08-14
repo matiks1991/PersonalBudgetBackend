@@ -105,6 +105,13 @@ try{
         if($connection->query($queryTableExpansesCategory) AND $connection->query($queryTableIncomesCategory) AND $connection->query($queryTablePaymentMethods)){
           $_SESSION['successfulRegistration'] = true;
           $_SESSION['logged'] = true;
+
+          $_SESSION['id'] = $userId;
+          $_SESSION['username'] = $username;
+          $_SESSION['email'] = $email;
+
+          
+
           header('Location: menu.php');
         }
         else {
