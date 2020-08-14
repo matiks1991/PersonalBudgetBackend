@@ -59,7 +59,7 @@
         </ul>
 
         <div class="navbar-user ml-auto border my-0 p-2">
-          <span class="user"><?= $_SESSION['username'].'imię'?></span>
+          <span><?= $_SESSION['username'];?></span>
         </div>
 
       </div>
@@ -74,7 +74,7 @@
       <small class="text-center">Logowanie zakończone sukcesem!</small>
       <img class="card-img-top" src="img/doors.jpg" alt="Drzwi">
       <div class="card-body p-0">
-        <h6 class="card-title text-center font-weight-bold">Witaj <span class="user">Wierzchosława</span>! </h6>
+        <h6 class="card-title text-center font-weight-bold">Witaj <span><?= $_SESSION['username'];?></span>! </h6>
         <p class="card-text text-center">Wybierz opcję z górnego menu.</p>
       </div>
     </div>
@@ -85,9 +85,6 @@
       </blockquote>
     </footer>
   </article>
-  
-
-
 
    <script src="libraries/jquery-3.5.1.min.js"></script>
    <!-- <script src="libraries/poper.min.js"></script> -->
