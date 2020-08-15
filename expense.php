@@ -21,7 +21,7 @@
       
       if($result = $connection->query($instructionRetrievePaymentMethodsFromDatabase))
       {
-        $dataPaymentMethods = $result->fetch_assoc();
+        $dataPaymentMethods = $result->fetch_all();
       }
 
       $instructionRetrieveExpensesCategoryFromDatabase = 'SELECT * FROM expenses_category_assigned_to_id_'.$_SESSION['id'];
@@ -148,24 +148,17 @@
 
               <legend>Sposób płatności:</legend>
 
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="paymentMethod" id="paymentMethod1" value="1" checked>
-                <label class="custom-control-label" for="paymentMethod1">
-                  Gotówka
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="paymentMethod" id="paymentMethod2" value="2">
-                <label class="custom-control-label" for="paymentMethod2">
-                  Karta debetowa
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="paymentMethod" id="paymentMethod3" value="3">
-                <label class="custom-control-label" for="paymentMethod3">
-                  Karta kredytowa
-                </label>
-              </div>
+              <?php
+                foreach ($dataPaymentMethods as $paymentMethod) {
+                  echo '<div class="custom-control custom-radio">
+                  <input class="custom-control-input" type="radio" name="paymentMethod" id="paymentMethod'.$paymentMethod[0].'" value="'.$paymentMethod[0].'" checked>
+                  <label class="custom-control-label" for="paymentMethod'.$paymentMethod[0].'">
+                  '.$paymentMethod[1].'
+                  </label>
+                </div>';
+                }
+              ?>
+
             </fieldset>
 
             <fieldset class="text-left offset-1 mb-3">
