@@ -27,9 +27,9 @@
       $instructionRetrieveExpensesCategoryFromDatabase = 'SELECT * FROM expenses_category_assigned_to_id_'.$_SESSION['id'];
       if($result = $connection->query($instructionRetrieveExpensesCategoryFromDatabase))
       {
-        $dataExpensesCategory = $result->fetch_assoc();
-        unset($_SESSION['error']);
+        $dataExpensesCategory = $result->fetch_all();
       }
+      $result->free_result();
     }
 
   } catch (Exception $e) {
@@ -151,7 +151,7 @@
               <?php
                 foreach ($dataPaymentMethods as $paymentMethod) {
                   echo '<div class="custom-control custom-radio">
-                  <input class="custom-control-input" type="radio" name="paymentMethod" id="paymentMethod'.$paymentMethod[0].'" value="'.$paymentMethod[0].'" checked>
+                  <input class="custom-control-input" type="radio" name="paymentMethod" id="paymentMethod'.$paymentMethod[0].'" value="'.$paymentMethod[0].'" required>
                   <label class="custom-control-label" for="paymentMethod'.$paymentMethod[0].'">
                   '.$paymentMethod[1].'
                   </label>
@@ -165,108 +165,18 @@
 
               <legend>Kategoria:</legend>
 
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category1" value="1" checked>
-                <label class="custom-control-label" for="category1">
-                  Jedzenie
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category2" value="2">
-                <label class="custom-control-label" for="category2">
-                  Mieszkanie
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category3" value="3">
-                <label class="custom-control-label" for="category3">
-                  Transport
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category4" value="4">
-                <label class="custom-control-label" for="category4">
-                  Telekomunikacja
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category5" value="5">
-                <label class="custom-control-label" for="category5">
-                  Opieka zdrowotna
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category6" value="6">
-                <label class="custom-control-label" for="category6">
-                  Ubranie
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category7" value="7">
-                <label class="custom-control-label" for="category7">
-                  Higiena
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category8" value="8">
-                <label class="custom-control-label" for="category8">
-                  Dzieci
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category9" value="9">
-                <label class="custom-control-label" for="category9">
-                  Rozrywka
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category10" value="10">
-                <label class="custom-control-label" for="category10">
-                  Wycieczka
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category11" value="11">
-                <label class="custom-control-label" for="category11">
-                  Szkolenia
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category12" value="12">
-                <label class="custom-control-label" for="category12">
-                  Książki
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category13" value="13">
-                <label class="custom-control-label" for="category13">
-                  Oszczędności
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category14" value="14">
-                <label class="custom-control-label" for="category14">
-                  Na złotą jesień, czyli emeryturę
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category15" value="15">
-                <label class="custom-control-label" for="category15">
-                  Spłata długów
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category16" value="16">
-                <label class="custom-control-label" for="category16">
-                  Darowizna
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category17" value="17">
-                <label class="custom-control-label" for="category17">
-                  Inne wydatki
-                </label>
-              </div>
+              <?php
+                foreach ($dataExpensesCategory as $expenseCategory) {
+                  echo '<div class="custom-control custom-radio">
+                  <input class="custom-control-input" type="radio" name="category" id="category'.$expenseCategory[0].'" value="'.$expenseCategory[0].'" required>
+                  <label class="custom-control-label" for="category'.$expenseCategory[0].'">
+                  '.$expenseCategory[1].'
+                  </label>
+                </div>';
+                }
+                unset($_SESSION['error']);
+              ?>
+
             </fieldset>
 
             <div class="row">
