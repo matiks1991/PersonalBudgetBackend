@@ -149,13 +149,18 @@
               <legend>Sposób płatności:</legend>
 
               <?php
-                foreach ($dataPaymentMethods as $paymentMethod) {
-                  echo '<div class="custom-control custom-radio">
-                  <input class="custom-control-input" type="radio" name="paymentMethod" id="paymentMethod'.$paymentMethod[0].'" value="'.$paymentMethod[0].'" required>
-                  <label class="custom-control-label" for="paymentMethod'.$paymentMethod[0].'">
-                  '.$paymentMethod[1].'
-                  </label>
-                </div>';
+                if (!isset($dataPaymentMethods))
+                {
+                  $_SESSION['error'] = '<span class="row  col-10 offset-1 text-danger">Błąd serwera! Przepraszamy za niedogodności i prosimy spróbować w innym terminie!<span>';
+                } else {
+                  foreach ($dataPaymentMethods as $paymentMethod) {
+                    echo '<div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" name="paymentMethod" id="paymentMethod'.$paymentMethod[0].'" value="'.$paymentMethod[0].'" required>
+                    <label class="custom-control-label" for="paymentMethod'.$paymentMethod[0].'">
+                    '.$paymentMethod[1].'
+                    </label>
+                  </div>';
+                }
                 }
               ?>
 
@@ -166,13 +171,18 @@
               <legend>Kategoria:</legend>
 
               <?php
-                foreach ($dataExpensesCategory as $expenseCategory) {
-                  echo '<div class="custom-control custom-radio">
-                  <input class="custom-control-input" type="radio" name="category" id="category'.$expenseCategory[0].'" value="'.$expenseCategory[0].'" required>
-                  <label class="custom-control-label" for="category'.$expenseCategory[0].'">
-                  '.$expenseCategory[1].'
-                  </label>
-                </div>';
+                if (!isset($dataPaymentMethods))
+                {
+                  $_SESSION['error'] = '<span class="row  col-10 offset-1 text-danger">Błąd serwera! Przepraszamy za niedogodności i prosimy spróbować w innym terminie!<span>';
+                } else {
+                  foreach ($dataExpensesCategory as $expenseCategory) {
+                    echo '<div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" name="category" id="category'.$expenseCategory[0].'" value="'.$expenseCategory[0].'" required>
+                    <label class="custom-control-label" for="category'.$expenseCategory[0].'">
+                    '.$expenseCategory[1].'
+                    </label>
+                  </div>';
+                  }
                 }
                 unset($_SESSION['error']);
               ?>
