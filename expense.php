@@ -114,7 +114,7 @@
               if(isset($_SESSION['error'])) echo $_SESSION['error'];
           ?>
 
-          <form class="text-center m-4 form-control-sm">
+          <form class="text-center m-4 form-control-sm" action="saveexpense.php" method="post">
 
             <div class="row">
 
@@ -172,7 +172,7 @@
               <legend>Kategoria:</legend>
 
               <?php
-                if (!isset($dataPaymentMethods))
+                if (!isset($dataExpensesCategory))
                 {
                   $_SESSION['error'] = '<span class="row  col-10 offset-1 text-danger">Błąd serwera! Przepraszamy za niedogodności i prosimy spróbować w innym terminie!<span>';
                 } else {
