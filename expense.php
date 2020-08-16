@@ -56,7 +56,6 @@
    <link rel="stylesheet" href="fontello-47dae6a1/css/fontello.css" type="text/css" />
    <link rel="stylesheet" href="style.css" type="text/css" />
   
-
 </head>
 
 <body>
@@ -139,8 +138,10 @@
                     <span class="input-group-text" id="basic-addon2"><i class="icon-calendar"></i></span>
                   </div>
                   <label class="sr-only">Data</label>
-                  <input type="date" id="date" class="form-control col-9" name="date" aria-label="Data" aria-describedby="basic-addon2" required>
-                
+                  <input type="date" id="date" class="form-control col-9" name="date" aria-label="Data" aria-describedby="basic-addon2" required value=<?php 
+                  $date = new DateTime();
+                  echo $date->format('Y-m-d'); ?>>
+
               </div>
             </div>
 
@@ -224,16 +225,6 @@
    <script src="libraries/jquery-3.5.1.min.js"></script>
    <!-- <script src="libraries/poper.min.js"></script> -->
    <script src="libraries/bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
-
-   
-   <script src="personalbudget.js"></script>
-
-
-   <script>
-		
-		setCurrentDate();
-		
-  </script>
   
 </body>
 </html>
