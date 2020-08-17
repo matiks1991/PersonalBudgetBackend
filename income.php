@@ -113,7 +113,7 @@
                 unset($_SESSION['successfulAddition']);
               }
           ?>
-          <form class="text-center m-4 form-control-sm">
+          <form class="text-center m-4 form-control-sm" action="saveincome.php" method="post">
 
             <div class="row">
 
