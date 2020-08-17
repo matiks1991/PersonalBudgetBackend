@@ -11,7 +11,7 @@ require_once "connect.php";
 
 try{
 
-    $connection = @new mysqli($host, $db_user, $db_password, $db_name);
+    $connection = new mysqli($host, $db_user, $db_password, $db_name);
 
     if ($connection->connect_errno != 0)
     {
@@ -64,7 +64,7 @@ try{
     }
 
 } catch(Exception $e) {
-    $_SESSION['error'] = '<span class="row  col-10 offset-1 text-danger">Błąd serwera! Pezpraszamy za niedogodności i prosimy o logowanie w innym terminie!<span>';
+    $_SESSION['error'] = '<span class="row  col-10 offset-1 text-danger">Błąd serwera! Przepraszamy za niedogodności i prosimy o logowanie w innym terminie!<span>';
     // $_SESSION['error'] .= '<br/> Informacja developerska: '.$e;
     header('Location:index.php');
 }

@@ -76,8 +76,8 @@
                     ?>>
                 </div>
                 <?php
-                      if(isset($_SESSION['error'])) echo $_SESSION['error'];
-                    ?>
+                  if(isset($_SESSION['error'])) echo $_SESSION['error'];
+                ?>
               </div>
 
               <div class="row">
