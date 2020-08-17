@@ -148,30 +148,22 @@
 
               <legend>Kategoria:</legend>
 
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category1" value="1" checked>
-                <label class="custom-control-label" for="category1">
-                  Wynagrodzenie
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category2" value="2">
-                <label class="custom-control-label" for="category2">
-                  Odsetki bankowe
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category3" value="3">
-                <label class="custom-control-label" for="category3">
-                  Sprzedaż na allegro
-                </label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input class="custom-control-input" type="radio" name="category" id="category4" value="4">
-                <label class="custom-control-label" for="category4">
-                  Inne
-                </label>
-              </div>
+              <?php
+                if (!isset($dataIncomesCategory))
+                {
+                  $_SESSION['error'] = '<span class="row  col-10 offset-1 text-danger">Błąd serwera! Przepraszamy za niedogodności i prosimy spróbować w innym terminie!<span>';
+                } else {
+                  foreach ($dataIncomesCategory as $incomeCategory) {
+                    echo '<div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" name="category" id="category'.$incomeCategory[0].'" value="'.$incomeCategory[0].'" required>
+                    <label class="custom-control-label" for="category'.$incomeCategory[0].'">
+                    '.$incomeCategory[1].'
+                    </label>
+                  </div>';
+                  }
+                }
+                unset($_SESSION['error']);
+              ?>
             </fieldset>
 
             <div class="row">
