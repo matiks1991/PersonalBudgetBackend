@@ -105,7 +105,14 @@
           <h2 class="text-center font-weight-bold">Dodaj przychód</h2>
 
           <hr>
-          
+          <?php
+              if(isset($_SESSION['error'])) echo $_SESSION['error'];
+
+              if(isset($_SESSION['successfulAddition'])){
+                echo $_SESSION['successfulAddition'];
+                unset($_SESSION['successfulAddition']);
+              }
+          ?>
           <form class="text-center m-4 form-control-sm">
 
             <div class="row">
