@@ -7,7 +7,7 @@ if(!isset($_SESSION['logged']))
     exit();
 }
 
-if ((!isset($_POST['amount'])) || (!isset($_POST['date'])) || (!isset($_POST['paymentMethod'])) || (!isset($_POST['category']))) {
+if ((!isset($_POST['amount'])) || (!isset($_POST['date'])) || (!isset($_POST['category']))) {
     $_SESSION['error'] = '<span class="row  col-10 offset-1 text-danger">Wypełnij wszystkie obowiązkowe pola!</span>';
     header('Location: expense.php');
     exit();
@@ -36,14 +36,14 @@ try{
       throw new Exception(mysqli_connect_errno());
     }
     else {
-        //Save expense to database
-        $instructionSavingExpenseInDatabase = "INSERT INTO expenses VALUES ( 'NULL', ".$_POST['amount'].", '".$_POST['date']."', ".$_POST['paymentMethod'].", ".$_POST['category'].", '".$_POST['comment']."', ".$_SESSION['id'].")";
-
-        if($connection->query($instructionSavingExpenseInDatabase))
+        //Save income to database
+        $instructionSavingIncomeInDatabase = "INSERT INTO incomes VALUES ( 'NULL', ".$_POST['amount'].", '".$_POST['date']."', ".$_POST['category'].", '".$_POST['comment']."', ".$_SESSION['id'].")";
+        echo $instructionSavingIncomeInDatabase;
+        if($connection->query($instructionSavingIncomeInDatabase))
         {
-            $_SESSION['successfulAddition'] = '<div class="row"><div class="col text-center font-weight-bold text-success mt-2" >Wydatek dodano pomyślnie!</div></div>
+            $_SESSION['successfulAddition'] = '<div class="row"><div class="col text-center font-weight-bold text-success mt-2" >Przychód dodano pomyślnie!</div></div>
             ';
-            header('Location: expense.php');
+            header('Location: income.php');
             unset($_SESSION['error']);
         } else {
             throw new Exception($connection->error);
