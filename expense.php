@@ -112,6 +112,11 @@
           <hr>
           <?php
               if(isset($_SESSION['error'])) echo $_SESSION['error'];
+
+              if(isset($_SESSION['successfulAddition'])){
+                echo $_SESSION['successfulAddition'];
+                unset($_SESSION['successfulAddition']);
+              }
           ?>
 
           <form class="text-center m-4 form-control-sm" action="saveexpense.php" method="post">
