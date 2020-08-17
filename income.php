@@ -85,7 +85,7 @@
         </ul>
 
         <div class="navbar-user ml-auto border my-0 p-2">
-          <span class="user">Wierzchosława</span>
+        <span><?= $_SESSION['username'];?></span>
         </div>
 
       </div>
