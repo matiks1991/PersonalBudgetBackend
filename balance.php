@@ -9,6 +9,14 @@
 
   require_once "currentmonth.php";
 
+  //pie chart
+  $pieData = array(array('Category', "Total"));
+  foreach($expenses as $expense){
+    $pieData[] = array($expense[0], (double)$expense[1]);
+  }
+
+  $jsonTable = json_encode($pieData);
+
 ?>
 
 <!DOCTYPE html>
@@ -315,16 +323,39 @@
       </div>
    </section>
 
-   <!-- <script src="personalbudget.js"></script> -->
+   <script src="personalbudget.js"></script>
    <script>
 
-      // google.charts.load('current', {'packages':['corechart']});
-      // google.charts.setOnLoadCallback(drawChart);
-      // $(window).resize(function(){
-      //    drawChart();
-      // });
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart(){
+	
+      var data = new google.visualization.arrayToDataTable(<?php echo $jsonTable; ?>);
       
-      // listeningForElements();
+      var options = {
+         title:'Wydatki - graficznie',
+         titleTextStyle:{color:'#52361b', fontSize:20, bold:1},
+         legend: 'none',
+         width:'100%',
+         height:330,
+         backgroundColor:'lightgray',
+         sliceVisibilityThreshold:.005,
+         margin:'0px',
+         paddings:'0px',
+         pieHole:0.4,
+         borderradius:'20px'
+      };
+
+	var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+	chart.draw(data, options);
+}
+
+      $(window).resize(function(){
+         drawChart();
+      });
+      
+      listeningForElements();
 
    </script>
 

@@ -60,6 +60,7 @@
       }
 
       $result->free_result();
+
     }
     
 
@@ -67,4 +68,3 @@
     $_SESSION['error'] = '<span class="row  col-10 offset-1 text-danger">Błąd serwera! Przepraszamy za niedogodności i prosimy spróbować w innym terminie!<span>';
     $_SESSION['error'] .= '<br/> Informacja developerska: '.$e;
   }
-  
