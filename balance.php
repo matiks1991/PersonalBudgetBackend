@@ -7,6 +7,8 @@
       exit();
   }
 
+  require_once "currentmonth.php";
+
 ?>
 
 <!DOCTYPE html>
@@ -31,9 +33,6 @@
    <!-- <script src="libraries/jquery.tablesorter.min.js"></script> -->
    <script src="libraries/loader.js"></script>
    <!-- <script src="libraries/jquery.tablesorter.min.js"></script> -->
-
-
-   <script src="personalbudget.js"></script>
 
 </head>
 
@@ -111,16 +110,75 @@
                <h2 id="title" class="text-center font-weight-bold">Bilans za miesiąc bieżący</h2>
 
                <hr>
-
+               <?php
+                  if(isset($_SESSION['error'])) echo $_SESSION['error'];
+                  unset($_SESSION['error']);
+               ?>
                <div class="container">
 
                   <div class="row mt-4">
-                     <div id="incomes" class="col-8 offset-2 col-lg-6 offset-lg-0"></div>
-                     <div id="expenses" class="col-8 offset-2 col-lg-6 offset-lg-0"></div>
+                     <div id="incomes" class="col-8 offset-2 col-lg-6 offset-lg-0">
+                        <table class="table table-sm  table-striped table-success text-center">
+                           <thead>
+                              <tr><th scope="col" colspan="3">Przychody</th></tr>
+                              <tr><th scope="col">Lp.</th><th scope="col">Kategoria</th><th scope="col">Kwota</th></tr>
+                           </thead>
+                           <tbody>
+                              <?php
+                                 $totalIncomes = 0;
+                                 $ordinalNumber = 0;
+                                 foreach ($incomes as $income) {
+                                    echo '<tr><th scope="row">'.(++$ordinalNumber).'</th><td>'.$income[0].'</td><td>'.$income[1].'</td></tr>' ;
+                                    $totalIncomes += $income[1];
+                                 }
+                                 echo '</tbody><tbody class="font-weight-bold"><tr><td></td><td class="sum">Suma:</td><td class="sum">'.number_format($totalIncomes, 2).' zł</td></tr>';
+                              ?>
+                           </tbody>
+                        </table>
+                     </div>
+
+                     <div id="expenses" class="col-8 offset-2 col-lg-6 offset-lg-0">
+                        <table class="table table-sm  table-striped table-secondary text-center">
+                           <thead>
+                              <tr><th scope="col" colspan="3">Wydatki</th></tr>
+                              <tr><th scope="col">Lp.</th><th scope="col">Kategoria</th><th scope="col">Kwota</th></tr>
+                           </thead>
+                           <tbody>
+                              <?php
+                                 $totalExpenses = 0;
+                                 $ordinalNumber = 0;
+                                 foreach ($expenses as $expense) {
+                                    echo '<tr><th scope="row">'.(++$ordinalNumber).'</th><td>'.$expense[0].'</td><td>'.$expense[1].'</td></tr>' ;
+                                    $totalExpenses += $expense[1];
+                                 }
+                                 echo '</tbody><tbody class="font-weight-bold"><tr><td></td><td class="sum">Suma:</td><td class="sum">'.number_format($totalExpenses, 2).' zł</td></tr>';
+                              ?>
+                           </tbody>
+                        </table>
+                     </div>
                   </div>
                   
                   <div class="row mt-2">
-                     <div id="balance" class="col-8 offset-2"></div>
+                    <div id="balance" class="col-8 offset-2">
+                    <?php
+                        $balance = number_format($totalIncomes - $totalExpenses, 2);
+                        $warning = 'Uff.. Żyjesz na krawędzi ;)';
+
+                        if ($balance > 0) {
+                           $warning = "Gratulacje. Świetnie zarządzasz finansami!";
+                           echo '<table class="table table-sm table-striped table-warning  text-center font-weight-bold"><tr><td class="sum">Bilans:</td><td class="sum">'.$balance.' zł</td></tr><tr><td colspan="2">'.$warning.'</td></tr></table>';
+                        }
+                        elseif ($balance < 0) {
+                           $warning = "Uważaj, wpadasz w długi!";
+                           echo '<table class="table table-sm table-striped table-danger  text-center font-weight-bold text-dark"><tr><td class="sum">Bilans:</td><td class="sum">'.$balance.' zł</td></tr><tr><td colspan="2">'.$warning.'</td></tr></table>';
+
+                        }
+                        else {
+                           echo '<table class="table table-sm table-striped table-warning  text-center font-weight-bold text-dark"><tr><td class="sum">Bilans:</td><td class="sum">'.$balance.' zł</td></tr><tr><td colspan="2">'.$warning.'</td></tr></table>';
+                        }
+                        
+                    ?>
+                    </div>
                   </div>
 
                   <div class="row">
@@ -128,8 +186,67 @@
                   </div>
 
                   <div class="row mt-4">
-                     <div id="incomesDetailed" class="col"></div>
-                     <div id="expensesDetailed" class="col"></div>
+                     <div id="incomesDetailed" class="col">
+                        <form>
+                           <table class="table table-responsive-sm table-sm table-striped table-success text-center">
+                              <thead>
+                                 <tr>
+                                    <th scope="col" colspan="6">Szczegółowe zestawienie przychodów</th></tr><tr><th scope="col">Lp.</th>
+                                    <th scope="col">Data</th>
+                                    <th scope="col">Kwota</th>
+                                    <th scope="col">Kategoria</th>
+                                    <th scope="col">Komentarz</th>
+                                    <th scope="col">Usuń</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <?php
+                                    $ordinalNumber = 0;
+                                    foreach ($incomesDetail as $incomeDetail) {
+                                       echo '<tr><th scope="row">'.(++$ordinalNumber).'</th><td>'
+                                       .$incomeDetail[1].'</td><td>'.$incomeDetail[2].'</td><td>'
+                                       .$incomeDetail[3].'</td><td>'.$incomeDetail[4].'</td><td>
+                                       <button class="btn btn-sm btn-delete" type="submit" name="deleteIncome" value='.$incomeDetail[0].'>
+                                       <i class="icon-cancel"></i></button></td></tr>';
+                                    }
+                                 ?>
+                              </tbody>
+                           </table>
+                        </form>
+                     </div>
+                  </div>
+
+                  <div class="row my-4">
+                     <div id="expensesDetailed" class="col">
+                        <form>
+                           <table class="table table-responsive-sm table-sm table-striped table-secondary text-center">
+                              <thead>
+                                 <tr>
+                                    <th scope="col" colspan="7">Szczegółowe zestawienie przychodów</th></tr><tr><th scope="col">Lp.</th>
+                                    <th scope="col">Data</th>
+                                    <th scope="col">Kwota</th>
+                                    <th scope="col">Kategoria</th>
+                                    <th scope="col">Sposób płatności</th>
+                                    <th scope="col">Komentarz</th>
+                                    <th scope="col">Usuń</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <?php
+                                    $ordinalNumber = 0;
+                                    foreach ($expensesDetail as $expenseDetail) {
+                                       echo '<tr><th scope="row">'.(++$ordinalNumber).'</th><td>'
+                                       .$expenseDetail[1].'</td><td>'.$expenseDetail[2].'</td><td>'
+                                       .$expenseDetail[3].'</td><td>'.$expenseDetail[4].'</td><td>'
+                                       .$expenseDetail[5].'</td><td>
+                                       <button class="btn btn-sm btn-delete" type="submit" name="deleteExpense" value='.$expenseDetail[0].'>
+                                       <i class="icon-cancel"></i></button></td></tr>';
+                                    }
+                                 ?>
+                              </tbody>
+                           </table>
+                        </form>
+                     </div>
                   </div>
 
                   <div class="row">
@@ -198,21 +315,16 @@
       </div>
    </section>
 
-
-   
-   
-
+   <!-- <script src="personalbudget.js"></script> -->
    <script>
-      setCurrentDate();
-      showCurrentMonth();
 
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-      $(window).resize(function(){
-         drawChart();
-      });
+      // google.charts.load('current', {'packages':['corechart']});
+      // google.charts.setOnLoadCallback(drawChart);
+      // $(window).resize(function(){
+      //    drawChart();
+      // });
       
-      listeningForElements();
+      // listeningForElements();
 
    </script>
 
