@@ -65,7 +65,7 @@
 
       $result->free_result();
 
-      $_SESSION['caption'] = 'Bilans za miesiąc bieżący';
+      $_SESSION['caption'] = 'Bilans za bieżący miesiąc ('.$date->format('m-Y').')';
 
     }
     

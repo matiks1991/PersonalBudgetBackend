@@ -102,12 +102,9 @@
                   Wybierz okres
                </button>
                <div class="dropdown-menu navbar-dark" aria-labelledby="navbarDropdown">
-                  <button class="dropdown-item" id="currentMonth">Bierzący miesiąc</button>
                   <a class="dropdown-item" href="balance.php">Bierzący miesiąc</a>
                   <a class="dropdown-item" href="previousmonth.php">Poprzedni miesiąc</a>
                   <a class="dropdown-item" href="currentyear.php">Bieżący rok</a>
-                  <button class="dropdown-item" id="previousMonth">Poprzedni miesiąc</button>
-                  <button class="dropdown-item" id="currentYear">Bierzący rok</button>
                   <div class="dropdown-divider"></div>
                   <button class="dropdown-item" type="button" data-toggle="modal"
                      data-target="#choosePeriod">Niestandardowy</button>

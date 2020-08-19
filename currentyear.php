@@ -65,7 +65,7 @@
 
       $result->free_result();
 
-      $_SESSION['caption'] = 'Bilans za rok bieżący';
+      $_SESSION['caption'] = 'Bilans za bieżący rok ('.$date->format('Y').')';
       $_SESSION['newPeriod'] = true;
       header('Location: balance.php');
     }

@@ -66,7 +66,7 @@
 
       $result->free_result();
 
-      $_SESSION['caption'] = 'Bilans za miesiąc poprzedni';
+      $_SESSION['caption'] = 'Bilans za poprzedni miesiąc ('.$date->format('m-Y').')';
       $_SESSION['newPeriod'] = true;
       header('Location: balance.php');
     }
