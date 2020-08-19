@@ -3,11 +3,22 @@
 
   if(!isset($_SESSION['logged']))
   {
-      header('Location: index.php');
-      exit();
+    header('Location: index.php');
+    exit();
   }
 
-  require_once "currentmonth.php";
+  if(!isset($_SESSION['newPeriod']))
+  {
+    require_once "currentmonth.php";
+  }
+  unset($_SESSION['newPeriod']);
+
+  //download values
+  $incomes = $_SESSION['incomes'];
+  $expenses = $_SESSION['expenses'];
+  $incomesDetail = $_SESSION['incomesDetail'];
+  $expensesDetail = $_SESSION['expensesDetail'];
+  $caption = $_SESSION['caption'];
 
   //pie chart
   $pieData = array(array('Category', "Total"));
@@ -92,6 +103,9 @@
                </button>
                <div class="dropdown-menu navbar-dark" aria-labelledby="navbarDropdown">
                   <button class="dropdown-item" id="currentMonth">Bierzący miesiąc</button>
+                  <a class="dropdown-item" href="balance.php">Bierzący miesiąc</a>
+                  <a class="dropdown-item" href="previousmonth.php">Poprzedni miesiąc</a>
+                  <a class="dropdown-item" href="currentyear.php">Bieżący rok</a>
                   <button class="dropdown-item" id="previousMonth">Poprzedni miesiąc</button>
                   <button class="dropdown-item" id="currentYear">Bierzący rok</button>
                   <div class="dropdown-divider"></div>
@@ -115,7 +129,7 @@
 
             <div class="col-lg-8 offset-lg-2 mt-3 bg-balance p-0">
 
-               <h2 id="title" class="text-center font-weight-bold">Bilans za miesiąc bieżący</h2>
+               <h2 id="title" class="text-center font-weight-bold"><?=$caption;?></h2>
 
                <hr>
                <?php
@@ -331,31 +345,31 @@
 
       function drawChart(){
 	
-      var data = new google.visualization.arrayToDataTable(<?php echo $jsonTable; ?>);
-      
-      var options = {
-         title:'Wydatki - graficznie',
-         titleTextStyle:{color:'#52361b', fontSize:20, bold:1},
-         legend: 'none',
-         width:'100%',
-         height:330,
-         backgroundColor:'lightgray',
-         sliceVisibilityThreshold:.005,
-         margin:'0px',
-         paddings:'0px',
-         pieHole:0.4,
-         borderradius:'20px'
-      };
+        var data = new google.visualization.arrayToDataTable(<?php echo $jsonTable; ?>);
+        
+        var options = {
+          title:'Wydatki - graficznie',
+          titleTextStyle:{color:'#52361b', fontSize:20, bold:1},
+          legend: 'none',
+          width:'100%',
+          height:330,
+          backgroundColor:'lightgray',
+          sliceVisibilityThreshold:.005,
+          margin:'0px',
+          paddings:'0px',
+          pieHole:0.4,
+          borderradius:'20px'
+        };
 
-	var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-	chart.draw(data, options);
-}
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+      }
 
       $(window).resize(function(){
          drawChart();
       });
       
-      listeningForElements();
+      //listeningForElements();
 
    </script>
 

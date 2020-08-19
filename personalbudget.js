@@ -5,7 +5,9 @@ function listeningForElements(){
 }
 
 function showCurrentMonth(){
-	
+
+	location.reload();
+
 }
 
 function showPreviousMonth(){

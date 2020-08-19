@@ -1,5 +1,5 @@
 <?php
-  //session_start();
+  session_start();
 
   if(!isset($_SESSION['logged']))
   {
@@ -18,6 +18,7 @@
        //echo "Error: ".$connection->connect_errno." Opis: ".$connection->connect_error;
     } else {
       $date = new DateTime();
+      $date->modify('-1 month');
 
       //incomes
       $instructionRetrieveIncomes = 'SELECT c.name as category, SUM(i.amount) as total FROM incomes i INNER JOIN incomes_category_assigned_to_id_'.$_SESSION['id'].' c WHERE i.income_category_assigned_to_user_id=c.id  AND i.date_of_income >= STR_TO_DATE("'.$date->format('Y-m-01').'","%Y-%m-%d") AND i.date_of_income <= STR_TO_DATE("'.$date->format('Y-m-t').'","%Y-%m-%d") GROUP BY category ORDER BY total DESC;';
@@ -65,8 +66,9 @@
 
       $result->free_result();
 
-      $_SESSION['caption'] = 'Bilans za miesiąc bieżący';
-
+      $_SESSION['caption'] = 'Bilans za miesiąc poprzedni';
+      $_SESSION['newPeriod'] = true;
+      header('Location: balance.php');
     }
     
 
