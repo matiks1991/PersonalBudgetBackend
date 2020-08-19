@@ -131,7 +131,6 @@
                <hr>
                <?php
                   if(isset($_SESSION['error'])) echo $_SESSION['error'];
-                  unset($_SESSION['error']);
                ?>
                <div class="container">
 
@@ -296,7 +295,7 @@
                      <span aria-hidden="true">&times;</span>
                   </button>
                </div>
-               <form class="text-center form-control">
+               <form class="text-center form-control" action="customperiod.php" method="post">
                   <div class="modal-body">
 
                      <div class="row">
@@ -306,8 +305,39 @@
                               <span class="input-group-text" id="basic-addon1"><i class="icon-calendar"></i></span>
                            </div>
                            <label for="date1" class="sr-only">Data</label>
-                           <input type="date" id="date1" class="form-control col-9" name="date" 
-                              aria-label="Data" aria-describedby="basic-addon1" required>
+                           <input type="date" id="date1" class="form-control col-9" name="dateStart"
+                              aria-label="Data" aria-describedby="basic-addon1" required value=<?php require_once "connect.php";
+
+                              try{
+                              $connection = @new mysqli($host, $db_user, $db_password, $db_name);
+
+                              if ($connection->connect_errno != 0)
+                              {
+                                 throw new Exception($connection->error);
+                                 //echo "Error: ".$connection->connect_errno." Opis: ".$connection->connect_error;
+                              } else {
+
+                                 //oldest date
+                                 $instructionRetrieveOldestDate = 'SELECT LEAST((SELECT MIN(date_of_income) FROM incomes WHERE user_id = '.$_SESSION['id'].'),(SELECT MIN(date_of_expense) FROM expenses WHERE user_id = '.$_SESSION['id'].')) as total;';
+                                 
+                                 if($result = $connection->query($instructionRetrieveOldestDate))
+                                 {
+                                    $oldestDate = $result->fetch_assoc();
+                                    echo $oldestDate['total'];
+                                 }else{
+                                    throw new Exception($connection->error);
+                                 }
+
+                                 $result->free_result();
+
+                              }
+                              
+
+                              } catch (Exception $e) {
+                              $_SESSION['error'] = '<span class="row  col-10 offset-1 text-danger">Błąd serwera! Przepraszamy za niedogodności i prosimy spróbować w innym terminie!<span>';
+                              // $_SESSION['error'] .= '<br/> Informacja developerska: '.$e;
+                              }
+                            ?>>
                         </div>
                      </div>
 
@@ -317,9 +347,41 @@
                            <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon2"><i class="icon-calendar"></i></span>
                            </div>
-                           <label class="sr-only">Data</label>
-                           <input type="date" id="date" class="form-control col-9" name="date"
-                              aria-label="Data" aria-describedby="basic-addon2" required>
+                           <label for="date2" class="sr-only">Data</label>
+                           <input type="date" id="date2" class="form-control col-9" name="dateEnd"
+                              aria-label="Data" aria-describedby="basic-addon2" required value=<?php require_once "connect.php";
+
+                              try{
+                              $connection = @new mysqli($host, $db_user, $db_password, $db_name);
+
+                              if ($connection->connect_errno != 0)
+                              {
+                                 throw new Exception($connection->error);
+                                 //echo "Error: ".$connection->connect_errno." Opis: ".$connection->connect_error;
+                              } else {
+
+                                 //youngest date
+                                 $instructionRetrieveYoungestDate = 'SELECT GREATEST((SELECT MAX(date_of_income) FROM incomes WHERE user_id = '.$_SESSION['id'].'),(SELECT MAX(date_of_expense) FROM expenses WHERE user_id = '.$_SESSION['id'].')) as total;';
+                                 
+                                 if($result = $connection->query($instructionRetrieveYoungestDate))
+                                 {
+                                    $youngestDate = $result->fetch_assoc();
+                                    echo $youngestDate['total'];
+                                 }else{
+                                    throw new Exception($connection->error);
+                                 }
+
+                                 $result->free_result();
+
+                                 $connection -> close();
+                              }
+
+
+                              } catch (Exception $e) {
+                              $_SESSION['error'] = '<span class="row  col-10 offset-1 text-danger">Błąd serwera! Przepraszamy za niedogodności i prosimy spróbować w innym terminie!<span>';
+                              // $_SESSION['error'] .= '<br/> Informacja developerska: '.$e;
+                              }
+                              ?>>
                         </div>
                      </div>
 
@@ -329,6 +391,10 @@
                      <button type="submit" class="btn btn-success btn-md">Zapisz zmiany</button>
                   </div>
                </form>
+               <?php
+                  if(isset($_SESSION['error'])) echo $_SESSION['error'];
+                  unset($_SESSION['error']);
+               ?>
             </div>
          </div>
       </div>
