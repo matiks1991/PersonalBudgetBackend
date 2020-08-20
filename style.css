@@ -268,3 +268,20 @@ button:hover{
     text-align: justify;
     font-style: italic;
 }
+
+.scrollup{
+	width: 64px;
+	height: 64px;
+	text-decoration: none;
+	background: url("img/up.png") no-repeat 0px 0px;
+	position: fixed;
+	right: 50px;
+    bottom: 50px;
+    opacity: 0.4;
+    z-index: 5;
+	display: none;
+}
+
+.scrollup:hover{
+    opacity: 1;
+}

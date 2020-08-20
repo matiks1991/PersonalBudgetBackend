@@ -46,12 +46,13 @@
    <link rel="stylesheet" href="fontello-47dae6a1/css/fontello.css" type="text/css" />
    <link rel="stylesheet" href="style.css" type="text/css" />
 
-   <script src="libraries/jquery-3.2.1.slim.min.js"></script>
+   <script src="libraries/jquery-3.5.1.min.js"></script>
+   <script src="libraries/jquery.scrollTo.min.js"></script>
    <!-- <script src="libraries/poper.min.js"></script> -->
    <script src="libraries/bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
-   <!-- <script src="libraries/jquery.tablesorter.min.js"></script> -->
    <script src="libraries/loader.js"></script>
-   <!-- <script src="libraries/jquery.tablesorter.min.js"></script> -->
+
+   <script src="personalbudget.js"></script>
 
 </head>
 
@@ -114,7 +115,7 @@
          </ul>
 
       </nav>
-
+      
    </header>
 
    <article>
@@ -127,13 +128,13 @@
             <div class="col-lg-8 offset-lg-2 mt-3 bg-balance p-0">
 
                <h2 id="title" class="text-center font-weight-bold"><?=$caption;?></h2>
-
+               <a href="#" class="scrollup"></a>
                <hr>
                <?php
                   if(isset($_SESSION['error'])) echo $_SESSION['error'];
                ?>
                <div class="container">
-
+                  
                   <div class="row mt-4">
                      <div id="incomes" class="col-8 offset-2 col-lg-6 offset-lg-0">
                         <table class="table table-sm  table-striped table-success text-center">
@@ -400,7 +401,6 @@
       </div>
    </section>
 
-   <script src="personalbudget.js"></script>
    <script>
 
       google.charts.load('current', {'packages':['corechart']});
@@ -428,6 +428,24 @@
         chart.draw(data, options);
       }
 
+      jQuery(function($)
+		{
+			//reset scroll
+			$.scrollTo(0);
+			$('.scrollup').click(function() { $.scrollTo($('body'), 1000); })
+		}
+      );
+      
+      //show during scrolling
+      $(window).scroll(function()
+		{
+         if($(this).scrollTop()>300)
+            $('.scrollup').fadeIn();
+         else
+            $('.scrollup').fadeOut();
+		}
+      );
+      
       $(window).resize(function(){
          drawChart();
       });
