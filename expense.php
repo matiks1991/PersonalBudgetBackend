@@ -204,8 +204,8 @@
 
             <div class="row">
 
-              <button type="submit" class="btn btn-success btn-md col-5 offset-1 mt-4">Dodaj</button>
-              <button type="reset" class="btn btn-reset btn-md col-5 mt-4">Reset</button>
+              <button type="reset" class="btn btn-reset btn-md col-5 mt-4 offset-1">Reset</button>
+              <button type="submit" class="btn btn-success btn-md col-5 mt-4">Dodaj</button>
               
             </div>
 
