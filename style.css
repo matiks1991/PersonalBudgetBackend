@@ -209,7 +209,6 @@ input:focus:-ms-input-placeholder
 
 button{
     background-color: #52361b;
-    color: rgb(0, 153, 0) ;
     border: none;
 }
 
@@ -221,12 +220,12 @@ button:hover{
     background-color: rgb(0, 85, 0);
 }
 
-.dropdown-menu button{
+.dropdown-menu .dropdown-item{
     background-color: rgb(0, 85, 0);
     color: rgb(216, 226, 190);
 }
 
-.dropdown-menu button:hover{
+.dropdown-menu .dropdown-item:hover{
     background-color: rgba(0, 120, 0);
     color: rgba(255, 255, 255, 0.9);
 }
