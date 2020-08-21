@@ -21,7 +21,7 @@
       $dateEnd = $_POST['dateEnd'];
 
       //incomes
-      $instructionRetrieveIncomes = 'SELECT c.name as category, SUM(i.amount) as total FROM incomes i INNER JOIN incomes_category_assigned_to_id_'.$_SESSION['id'].' c WHERE i.income_category_assigned_to_user_id=c.id  AND i.date_of_income >= STR_TO_DATE("'.$dateStart.'","%Y-%m-%d") AND i.date_of_income <= STR_TO_DATE("'.$dateEnd.'","%Y-%m-%d") AND i.user_id = '.$_SESSION['id'].' GROUP BY category ORDER BY total DESC;';
+      $instructionRetrieveIncomes = 'SELECT c.name as category, SUM(i.amount) as total FROM incomes i INNER JOIN incomes_category_assigned_to_users c ON i.income_category_assigned_to_user_id=c.id WHERE c.user_id='.$_SESSION['id'].' AND i.date_of_income >= STR_TO_DATE("'.$dateStart.'","%Y-%m-%d") AND i.date_of_income <= STR_TO_DATE("'.$dateEnd.'","%Y-%m-%d") AND i.user_id = '.$_SESSION['id'].' GROUP BY category ORDER BY total DESC;';
       
       if($result = $connection->query($instructionRetrieveIncomes))
       {
@@ -32,7 +32,7 @@
       }
 
       //expenses
-      $instructionRetrieveExpenses = 'SELECT c.name as category, SUM(i.amount) as total FROM expenses i INNER JOIN expenses_category_assigned_to_id_'.$_SESSION['id'].' c WHERE i.expense_category_assigned_to_user_id=c.id  AND i.date_of_expense >= STR_TO_DATE("'.$dateStart.'","%Y-%m-%d") AND i.date_of_expense <= STR_TO_DATE("'.$dateEnd.'","%Y-%m-%d") AND i.user_id = '.$_SESSION['id'].' GROUP BY category ORDER BY total DESC;';
+      $instructionRetrieveExpenses = 'SELECT c.name as category, SUM(i.amount) as total FROM expenses i INNER JOIN expenses_category_assigned_to_users c WHERE c.user_id='.$_SESSION['id'].' AND i.expense_category_assigned_to_user_id=c.id  AND i.date_of_expense >= STR_TO_DATE("'.$dateStart.'","%Y-%m-%d") AND i.date_of_expense <= STR_TO_DATE("'.$dateEnd.'","%Y-%m-%d") AND i.user_id = '.$_SESSION['id'].' GROUP BY category ORDER BY total DESC;';
       
       if($result = $connection->query($instructionRetrieveExpenses))
       {
@@ -43,7 +43,7 @@
       }
 
       //incomes detail
-      $instructionRetrieveIncomesDetail = 'SELECT i.id, i.date_of_income, i.amount, c.name, i.income_comment FROM incomes i INNER JOIN incomes_category_assigned_to_id_'.$_SESSION['id'].' c ON i.income_category_assigned_to_user_id=c.id  WHERE i.date_of_income >= STR_TO_DATE("'.$dateStart.'","%Y-%m-%d") AND i.date_of_income <= STR_TO_DATE("'.$dateEnd.'","%Y-%m-%d") AND i.user_id = '.$_SESSION['id'].' ORDER BY i.date_of_income DESC;';
+      $instructionRetrieveIncomesDetail = 'SELECT i.id, i.date_of_income, i.amount, c.name, i.income_comment FROM incomes i INNER JOIN incomes_category_assigned_to_users c ON i.income_category_assigned_to_user_id=c.id  WHERE c.user_id='.$_SESSION['id'].' AND i.date_of_income >= STR_TO_DATE("'.$dateStart.'","%Y-%m-%d") AND i.date_of_income <= STR_TO_DATE("'.$dateEnd.'","%Y-%m-%d") AND i.user_id = '.$_SESSION['id'].' ORDER BY i.date_of_income DESC;';
       
       if($result = $connection->query($instructionRetrieveIncomesDetail))
       {
@@ -54,7 +54,7 @@
       }
 
       //expenses detail
-      $instructionRetrieveExpensesDetail = 'SELECT i.id, i.date_of_expense, i.amount, c.name, p.name, i.expense_comment FROM expenses i INNER JOIN expenses_category_assigned_to_id_'.$_SESSION['id'].' c ON i.expense_category_assigned_to_user_id=c.id INNER JOIN payment_methods_assigned_to_id_'.$_SESSION['id'].' p ON i.payment_method_assigned_to_user_id = p.id WHERE i.date_of_expense >= STR_TO_DATE("'.$dateStart.'","%Y-%m-%d") AND i.date_of_expense <= STR_TO_DATE("'.$dateEnd.'","%Y-%m-%d") AND i.user_id = '.$_SESSION['id'].' ORDER BY i.date_of_expense DESC;';
+      $instructionRetrieveExpensesDetail = 'SELECT i.id, i.date_of_expense, i.amount, c.name, p.name, i.expense_comment FROM expenses i INNER JOIN expenses_category_assigned_to_users c ON i.expense_category_assigned_to_user_id=c.id  INNER JOIN payment_methods_assigned_to_users p ON i.payment_method_assigned_to_user_id = p.id WHERE c.user_id='.$_SESSION['id'].' AND p.user_id='.$_SESSION['id'].' AND i.date_of_expense >= STR_TO_DATE("'.$dateStart.'","%Y-%m-%d") AND i.date_of_expense <= STR_TO_DATE("'.$dateEnd.'","%Y-%m-%d") AND i.user_id = '.$_SESSION['id'].' ORDER BY i.date_of_expense DESC;';
       
       if($result = $connection->query($instructionRetrieveExpensesDetail))
       {
