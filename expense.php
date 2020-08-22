@@ -17,14 +17,16 @@
         throw new Exception($connection->error);
         //echo "Error: ".$connection->connect_errno." Opis: ".$connection->connect_error;
     } else {
-      $instructionRetrievePaymentMethodsFromDatabase = 'SELECT * FROM payment_methods_assigned_to_id_'.$_SESSION['id'];
+      $connection->query("SET NAMES 'utf8'");
+
+      $instructionRetrievePaymentMethodsFromDatabase = 'SELECT id, name FROM payment_methods_assigned_to_users WHERE user_id='.$_SESSION['id'];
       
       if($result = $connection->query($instructionRetrievePaymentMethodsFromDatabase))
       {
         $dataPaymentMethods = $result->fetch_all();
       }
 
-      $instructionRetrieveExpensesCategoryFromDatabase = 'SELECT * FROM expenses_category_assigned_to_id_'.$_SESSION['id'];
+      $instructionRetrieveExpensesCategoryFromDatabase = 'SELECT id, name FROM expenses_category_assigned_to_users WHERE user_id='.$_SESSION['id'];;
       if($result = $connection->query($instructionRetrieveExpensesCategoryFromDatabase))
       {
         $dataExpensesCategory = $result->fetch_all();

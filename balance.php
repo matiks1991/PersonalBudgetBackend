@@ -317,7 +317,7 @@
                                  throw new Exception($connection->error);
                                  //echo "Error: ".$connection->connect_errno." Opis: ".$connection->connect_error;
                               } else {
-
+                                 
                                  //oldest date
                                  $instructionRetrieveOldestDate = 'SELECT LEAST((SELECT MIN(date_of_income) FROM incomes WHERE user_id = '.$_SESSION['id'].'),(SELECT MIN(date_of_expense) FROM expenses WHERE user_id = '.$_SESSION['id'].')) as total;';
                                  
@@ -331,6 +331,7 @@
 
                                  $result->free_result();
 
+                                 $connection -> close();
                               }
                               
 
@@ -353,7 +354,7 @@
                               aria-label="Data" aria-describedby="basic-addon2" required value=<?php require_once "connect.php";
 
                               try{
-                              $connection = @new mysqli($host, $db_user, $db_password, $db_name);
+                                 $connection = @new mysqli($host, $db_user, $db_password, $db_name);
 
                               if ($connection->connect_errno != 0)
                               {
