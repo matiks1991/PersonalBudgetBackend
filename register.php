@@ -69,6 +69,7 @@ try{
     throw new Exception(mysqli_connect_errno());
   }
   else {
+    $connection->query("SET NAMES 'utf8'");
 
     //Check if the email arledy exists in the database
     $theSameEmailsInTheDatabase = $connection->query("SELECT email FROM users WHERE email='$email'");
@@ -97,22 +98,28 @@ try{
         $row = $result->fetch_assoc();
         $userId = $row['id'];
         
-        $queryTableExpansesCategory = "CREATE TABLE expenses_category_assigned_to_ID_".$userId." AS SELECT * FROM expenses_category_default";
-        $queryTableIncomesCategory = "CREATE TABLE incomes_category_assigned_to_ID_".$userId." AS SELECT * FROM incomes_category_default";
-        $queryTablePaymentMethods = "CREATE TABLE payment_methods_assigned_to_ID_".$userId." AS SELECT * FROM payment_methods_default";
+        $queryTableExpansesCategory = "INSERT INTO expenses_category_assigned_to_users (name) SELECT name FROM expenses_category_default";
+        $queryTableIncomesCategory = "INSERT INTO incomes_category_assigned_to_users (name) SELECT name FROM incomes_category_default";
+        $queryTablePaymentMethods = "INSERT INTO payment_methods_assigned_to_users (name) SELECT name FROM payment_methods_default";
 
 
         if($connection->query($queryTableExpansesCategory) AND $connection->query($queryTableIncomesCategory) AND $connection->query($queryTablePaymentMethods)){
-          $_SESSION['successfulRegistration'] = true;
-          $_SESSION['logged'] = true;
+          $queryTableExpansesCategory = "UPDATE expenses_category_assigned_to_users SET user_id=".$userId." WHERE user_id=0";
+          $queryTableIncomesCategory = "UPDATE incomes_category_assigned_to_users SET user_id=".$userId." WHERE user_id=0";
+          $queryTablePaymentMethods = "UPDATE payment_methods_assigned_to_users SET user_id=".$userId." WHERE user_id=0";
+          if($connection->query($queryTableExpansesCategory) AND $connection->query($queryTableIncomesCategory) AND $connection->query($queryTablePaymentMethods)){
+            $_SESSION['successfulRegistration'] = true;
+            $_SESSION['logged'] = true;
 
-          $_SESSION['id'] = $userId;
-          $_SESSION['username'] = $username;
-          $_SESSION['email'] = $email;
+            $_SESSION['id'] = $userId;
+            $_SESSION['username'] = $username;
+            $_SESSION['email'] = $email;
 
-          
-
-          header('Location: menu.php');
+            header('Location: menu.php');
+          }
+          else {
+            throw new Exception($connection->error);
+          }
         }
         else {
           throw new Exception($connection->error);
@@ -131,6 +138,6 @@ try{
 } catch(Exception $e) {
   $_SESSION['e_connection'] = 'Błąd serwera! Przepraszamy za niedogodności i prosimy o rejestrację w innym terminie!';
   header('Location: registration.php');
-  //echo '<br />Informacja developerska: '.$e;
+  //$_SESSION['e_connection'] .= '<br />Informacja developerska: '.$e;
 }
 

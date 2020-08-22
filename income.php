@@ -11,6 +11,7 @@
 
   try{
     $connection = @new mysqli($host, $db_user, $db_password, $db_name);
+    $connection->query("SET NAMES 'utf8'");
 
     if ($connection->connect_errno != 0)
     {
@@ -18,7 +19,7 @@
         //echo "Error: ".$connection->connect_errno." Opis: ".$connection->connect_error;
     } else {
 
-      $instructionRetrieveIncomesCategoryFromDatabase = 'SELECT * FROM incomes_category_assigned_to_id_'.$_SESSION['id'];
+      $instructionRetrieveIncomesCategoryFromDatabase = 'SELECT id, name FROM incomes_category_assigned_to_users WHERE user_id='.$_SESSION['id'];
       if($result = $connection->query($instructionRetrieveIncomesCategoryFromDatabase))
       {
         $dataIncomesCategory = $result->fetch_all();

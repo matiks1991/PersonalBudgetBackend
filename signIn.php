@@ -19,6 +19,8 @@ try{
         //echo "Error: ".$connection->connect_errno." Opis: ".$connection->connect_error;
     }
     else{
+        $connection->query("SET NAMES 'utf8'");
+
         //Logged In
         $email = $_POST['email'];
         $password = $_POST['password'];
