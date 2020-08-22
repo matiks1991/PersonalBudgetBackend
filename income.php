@@ -11,6 +11,7 @@
 
   try{
     $connection = @new mysqli($host, $db_user, $db_password, $db_name);
+    $connection->query("SET NAMES 'utf8'");
 
     if ($connection->connect_errno != 0)
     {

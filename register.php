@@ -69,6 +69,7 @@ try{
     throw new Exception(mysqli_connect_errno());
   }
   else {
+    $connection->query("SET NAMES 'utf8'");
 
     //Check if the email arledy exists in the database
     $theSameEmailsInTheDatabase = $connection->query("SELECT email FROM users WHERE email='$email'");

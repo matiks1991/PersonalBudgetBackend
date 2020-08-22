@@ -17,6 +17,8 @@
         throw new Exception($connection->error);
         //echo "Error: ".$connection->connect_errno." Opis: ".$connection->connect_error;
     } else {
+      $connection->query("SET NAMES 'utf8'");
+
       $instructionRetrievePaymentMethodsFromDatabase = 'SELECT id, name FROM payment_methods_assigned_to_users WHERE user_id='.$_SESSION['id'];
       
       if($result = $connection->query($instructionRetrievePaymentMethodsFromDatabase))

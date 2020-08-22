@@ -36,6 +36,8 @@ try{
       throw new Exception(mysqli_connect_errno());
     }
     else {
+        $connection->query("SET NAMES 'utf8'");
+
         //Save income to database
         $instructionSavingIncomeInDatabase = "INSERT INTO incomes VALUES ( 'NULL', ".$_POST['amount'].", '".$_POST['date']."', ".$_POST['category'].", '".$_POST['comment']."', ".$_SESSION['id'].")";
         echo $instructionSavingIncomeInDatabase;

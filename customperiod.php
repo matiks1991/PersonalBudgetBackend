@@ -17,6 +17,8 @@
       throw new Exception($connection->error);
        //echo "Error: ".$connection->connect_errno." Opis: ".$connection->connect_error;
     } else {
+      $connection->query("SET NAMES 'utf8'");
+
       $dateStart = $_POST['dateStart'];
       $dateEnd = $_POST['dateEnd'];
 
